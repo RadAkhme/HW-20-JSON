@@ -1,15 +1,19 @@
 import Foundation
 
 
+func magicTheGatheringURL(_ cardName: String) -> String {
+    var magicTheGatheringComponents = URLComponents()
+    magicTheGatheringComponents.scheme = "https"
+    magicTheGatheringComponents.host = "api.magicthegathering.io"
+    magicTheGatheringComponents.path = "/v1/cards"
+    magicTheGatheringComponents.queryItems = [URLQueryItem(name: "name", value: cardName)]
+
+    return magicTheGatheringComponents.description
+}
+
 func getData(cardsUrlRequest: [String]) {
     for request in cardsUrlRequest {
-        var magicTheGatheringComponents = URLComponents()
-        magicTheGatheringComponents.scheme = "https"
-        magicTheGatheringComponents.host = "api.magicthegathering.io"
-        magicTheGatheringComponents.path = "/v1/cards"
-        magicTheGatheringComponents.queryItems = [URLQueryItem(name: "name", value: request)]
-        
-        let urlRequest = URL(string: magicTheGatheringComponents.description)
+        let urlRequest = URL(string: magicTheGatheringURL(request))
         guard let url = urlRequest else { return }
         URLSession.shared.dataTask(with: url) { data, response, error in
             if error != nil {
