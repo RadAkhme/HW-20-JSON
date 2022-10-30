@@ -4,7 +4,11 @@ import Foundation
 public struct Cards: Decodable {
     var cards: [Card]
     
-    public func printAllCards() {
+    public func printAllCards(_ cardName: [String]) {
+        let cards = cards.filter { card in
+           cardName.contains(card.name)
+        }
+        
         for card in cards {
             card.printCard()
         }
